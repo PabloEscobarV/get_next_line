@@ -6,7 +6,7 @@
 /*   By: polenyc <polenyc@student.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 17:43:28 by polenyc           #+#    #+#             */
-/*   Updated: 2023/12/14 00:07:26 by polenyc          ###   ########.fr       */
+/*   Updated: 2023/12/14 00:28:02 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_datafd	*finddatafd(t_datafd **data, int fd)
 		return (*data);
 	}
 	tmp = *data;
-	while (tmp->fd != fd && tmp)
+	while (tmp->next && tmp->fd != fd)
 		tmp = tmp->next;
 	if (tmp->fd == fd)
 		return (tmp);
@@ -115,15 +115,22 @@ void	ft_putstr_fd(char *s, int fd)
 int main(void)
 {
 	char	*str;
+	char	*str1;
 	int		file;
+	int		file1;
 
 	file = open("file.txt", O_RDONLY);
+	file1 = open("file1.txt", O_RDONLY);
 	str = get_next_line(file);
+	str1 = get_next_line(file1);
 	while (str)
 	{
-		ft_putstr_fd(str, 1);
+		printf("%s", str);
+		printf("%s", str1);
 		str = get_next_line(file);
+		str1 = get_next_line(file1);
 	}
 	close(file);
+	close(file1);
 	return (0);
 }
