@@ -6,7 +6,7 @@
 /*   By: polenyc <polenyc@student.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 14:53:17 by polenyc           #+#    #+#             */
-/*   Updated: 2023/12/14 15:48:43 by polenyc          ###   ########.fr       */
+/*   Updated: 2023/12/14 15:52:24 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int main(void)
     printf("BUFFER SIZE: %d\n", BUFFER_SIZE);
 	str = get_next_line(file);
 	str1 = get_next_line(file1);
-    str2 = get_next_line(file2);
+    str2 = get_next_line(0);
 	while (str || str1 || str2)
 	{
 		printf("%s", str);
@@ -38,7 +38,7 @@ int main(void)
         printf("%s", str2);
 		str = get_next_line(file);
 		str1 = get_next_line(file1);
-        str2 = get_next_line(file2);
+        str2 = get_next_line(0);
 	}
 	close(file);
 	close(file1);
