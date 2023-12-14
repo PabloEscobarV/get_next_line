@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: polenyc <polenyc@student.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 17:43:28 by polenyc           #+#    #+#             */
-/*   Updated: 2023/12/14 00:07:26 by polenyc          ###   ########.fr       */
+/*   Updated: 2023/12/14 14:50:30 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -41,7 +41,7 @@ t_datafd	*finddatafd(t_datafd **data, int fd)
 		return (*data);
 	}
 	tmp = *data;
-	while (tmp->fd != fd && tmp)
+	while (tmp->next && tmp->fd != fd)
 		tmp = tmp->next;
 	if (tmp->fd == fd)
 		return (tmp);
@@ -106,24 +106,25 @@ char	*get_next_line(int fd)
 	return (splitdata(tmp, str));
 }
 
-void	ft_putstr_fd(char *s, int fd)
-{
-	while (*s)
-		write(fd, s++, sizeof(char));
-}
+// int main(void)
+// {
+// 	char	*str;
+// 	char	*str1;
+// 	int		file;
+// 	int		file1;
 
-int main(void)
-{
-	char	*str;
-	int		file;
-
-	file = open("file.txt", O_RDONLY);
-	str = get_next_line(file);
-	while (str)
-	{
-		ft_putstr_fd(str, 1);
-		str = get_next_line(file);
-	}
-	close(file);
-	return (0);
-}
+// 	file = open("file.txt", O_RDONLY);
+// 	file1 = open("file1.txt", O_RDONLY);
+// 	str = get_next_line(file);
+// 	str1 = get_next_line(file1);
+// 	while (str)
+// 	{
+// 		printf("%s", str);
+// 		printf("%s", str1);
+// 		str = get_next_line(file);
+// 		str1 = get_next_line(file1);
+// 	}
+// 	close(file);
+// 	close(file1);
+// 	return (0);
+// }
