@@ -6,15 +6,13 @@
 /*   By: polenyc <polenyc@student.fr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 17:43:28 by polenyc           #+#    #+#             */
-/*   Updated: 2023/12/14 14:50:30 by polenyc          ###   ########.fr       */
+/*   Updated: 2023/12/14 14:55:06 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 #include <unistd.h>
 #include <stdlib.h>
-#include <stdio.h>
-#include <fcntl.h>
 
 t_datafd	*crtdata(char *str, int fd)
 {
@@ -105,26 +103,3 @@ char	*get_next_line(int fd)
 	tmp = finddatafd(&data, fd);
 	return (splitdata(tmp, str));
 }
-
-// int main(void)
-// {
-// 	char	*str;
-// 	char	*str1;
-// 	int		file;
-// 	int		file1;
-
-// 	file = open("file.txt", O_RDONLY);
-// 	file1 = open("file1.txt", O_RDONLY);
-// 	str = get_next_line(file);
-// 	str1 = get_next_line(file1);
-// 	while (str)
-// 	{
-// 		printf("%s", str);
-// 		printf("%s", str1);
-// 		str = get_next_line(file);
-// 		str1 = get_next_line(file1);
-// 	}
-// 	close(file);
-// 	close(file1);
-// 	return (0);
-// }
