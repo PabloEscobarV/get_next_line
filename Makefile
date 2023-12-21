@@ -9,7 +9,7 @@ SRC_BONUS = get_next_line_bonus.c get_next_line_utils_bonus.c test_bonus.c
 OBJECTS = $(SRC:%.c=$(OBJ_DIR)/%.o)
 OBJECTS_BONUS = $(addprefix $(OBJ_DIR)/, $(SRC_BONUS:%.c=%.o))
 CC = gcc
-CFLAG = -Wall -Wextra -Werror
+CFLAG = -g -Wall -Wextra -Werror
 
 .PHONY: all fclean clean bonus run
 
@@ -25,7 +25,7 @@ $(NAME_BONUS): $(OBJECTS_BONUS)
 
 $(OBJ_DIR)/%.o: %.c
 	mkdir -p $(OBJ_DIR)
-	$(CC) -c $(CFLAG) -D BUFFER_SIZE=10 $< -o $@
+	$(CC) -c $(CFLAG) -D BUFFER_SIZE=1 $< -o $@
 
 clean:
 	rm -rf $(OBJ_DIR)
@@ -39,3 +39,7 @@ run: fclean $(NAME)
 
 run_bonus: fclean bonus
 	./$(NAME_BONUS)
+
+re: fclean $(NAME)
+
+re_bonus: fclean $(NAME_BONUS)

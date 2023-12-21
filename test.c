@@ -27,8 +27,10 @@ int main(void)
 	while (str)
 	{
 		printf("%s", str);
+		free(str);
 		str = get_next_line(file);
 	}
+	free(str);
 	close(file);
 	return (0);
 }

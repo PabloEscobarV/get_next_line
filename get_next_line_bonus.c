@@ -13,6 +13,7 @@
 #include "get_next_line_bonus.h"
 #include <unistd.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 t_datafd	*crtdata(char *str, int fd)
 {
@@ -54,11 +55,12 @@ char	*readdata(int fd)
 	int		count;
 
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!buffer)
-		return (NULL);
 	count = read(fd, buffer, BUFFER_SIZE);
 	if (count < 1)
+	{
+		free(buffer);
 		return (NULL);
+	}
 	buffer[count] = '\0';
 	str = ft_strdup("", '\0');
 	while (count && !ft_strchr(buffer, NEXT_LINE))
@@ -83,7 +85,7 @@ char	*splitdata(t_datafd *data, char *str)
 	chnext = ft_strchr(str, NEXT_LINE);
 	if (!chnext)
 		return (strjoinfree(data->str, str, 1));
-	tmp = strjoinfree(data->str, ft_strdup(str, *chnext), 0);
+	tmp = strjoinfree(data->str, ft_strdup(str, *chnext), 2);
 	data->str = ft_strdup(chnext + 1, '\0');
 	free(str);
 	return (tmp);
@@ -100,6 +102,7 @@ char	*get_next_line(int fd)
 	str = readdata(fd);
 	if (!str)
 		return (NULL);
+	printf("result:\t%s\n", str);
 	tmp = finddatafd(&data, fd);
 	return (splitdata(tmp, str));
 }

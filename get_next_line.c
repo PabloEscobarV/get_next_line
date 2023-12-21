@@ -23,11 +23,12 @@ char	*readdata(int fd)
 	int		count;
 
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!buffer)
-		return (NULL);
 	count = read(fd, buffer, BUFFER_SIZE);
 	if (count < 1)
+	{
+		free(buffer);
 		return (NULL);
+	}
 	buffer[count] = '\0';
 	str = ft_strdup("", '\0');
 	while (count && !ft_strchr(buffer, NEXT_LINE))
@@ -44,16 +45,16 @@ char	*readdata(int fd)
 	return (strjoinfree(str, buffer, 2));
 }
 
-char	*splitdata(char *data, char *str)
+char	*splitdata(char **data, char *str)
 {
 	char	*chnext;
 	char	*tmp;
 
 	chnext = ft_strchr(str, NEXT_LINE);
 	if (!chnext)
-		return (strjoinfree(data, str, 1));
-	tmp = strjoinfree(data, ft_strdup(str, *chnext), 0);
-	data = ft_strdup(chnext + 1, '\0');
+		return (strjoinfree(*data, str, 1));
+	tmp = strjoinfree(*data, ft_strdup(str, *chnext), 2);
+	*data = ft_strdup(chnext + 1, '\0');
 	free(str);
 	return (tmp);
 }
@@ -72,7 +73,7 @@ char	*get_next_line(int fd)
 	str = readdata(fd);
 	if (!str)
 		return (NULL);
-	return (splitdata(data, str));
+	return (splitdata(&data, str));
 }
 
 // int main(void)
