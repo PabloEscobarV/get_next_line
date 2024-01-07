@@ -34,9 +34,9 @@ int main(void)
     str2 = get_next_line(file2);
 	while (str || str1 || str2)
 	{
-		printf("file:\t%s", str);
-		printf("file1:\t%s", str1);
-        printf("file2:\t%s", str2);
+		printf("file\t%s", str);
+		// printf("file1:\t%s", str1);
+        // printf("file2:\t%s", str2);
 		free(str);
 		free(str1);
 		free(str2);

@@ -50,6 +50,15 @@ char	*splitdata(char **data, char *str)
 	char	*chnext;
 	char	*tmp;
 
+	chnext = ft_strchr(*data, NEXT_LINE);
+	if (chnext)
+	{
+		tmp = ft_strdup(*data, *chnext);
+		chnext = ft_strdup(chnext + 1, '\0');
+		free(*data);
+		*data = strjoinfree(chnext, str, 2);
+		return (tmp);
+	}
 	chnext = ft_strchr(str, NEXT_LINE);
 	if (!chnext)
 		return (strjoinfree(*data, str, 1));

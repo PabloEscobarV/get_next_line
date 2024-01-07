@@ -82,6 +82,15 @@ char	*splitdata(t_datafd *data, char *str)
 	char	*chnext;
 	char	*tmp;
 
+	chnext = ft_strchr(data->str, NEXT_LINE);
+	if (chnext)
+	{
+		tmp = ft_strdup(data->str, *chnext);
+		chnext = ft_strdup(chnext + 1, '\0');
+		free(data->str);
+		data->str = strjoinfree(chnext, str, 2);
+		return (tmp);
+	}
 	chnext = ft_strchr(str, NEXT_LINE);
 	if (!chnext)
 		return (strjoinfree(data->str, str, 1));
@@ -102,7 +111,6 @@ char	*get_next_line(int fd)
 	str = readdata(fd);
 	if (!str)
 		return (NULL);
-	printf("result:\t%s\n", str);
 	tmp = finddatafd(&data, fd);
 	return (splitdata(tmp, str));
 }

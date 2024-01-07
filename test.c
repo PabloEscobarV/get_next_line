@@ -26,7 +26,7 @@ int main(void)
 	str = get_next_line(file);
 	while (str)
 	{
-		printf("%s", str);
+		printf("result: %s", str);
 		free(str);
 		str = get_next_line(file);
 	}
