@@ -29,24 +29,24 @@ int main(void)
 	file1 = open("file1.txt", O_RDONLY);
     file2 = open("file3.txt", O_RDONLY);
     printf("BUFFER SIZE: %d\n", BUFFER_SIZE);
-	// str = get_next_line(file);
+	str = get_next_line(file);
 	str1 = get_next_line(file1);
-    // str2 = get_next_line(file2);
+    str2 = get_next_line(file2);
 	while (str || str1 || str2)
 	{
-		// printf("file:\t%s", str);
+		printf("file:\t%s", str);
 		printf("file1:\t%s", str1);
-        // printf("file2:\t%s", str2);
-		// free(str);
+        printf("file2:\t%s", str2);
+		free(str);
 		free(str1);
-		// free(str2);
-		// str = get_next_line(file);
+		free(str2);
+		str = get_next_line(file);
 		str1 = get_next_line(file1);
-        // str2 = get_next_line(file2);
+        str2 = get_next_line(file2);
 	}
-	// free(str);
+	free(str);
 	free(str1);
-	// free(str2);
+	free(str2);
 	close(file);
 	close(file1);
     close(file2);
