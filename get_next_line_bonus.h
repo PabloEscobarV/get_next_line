@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.fr>               +#+  +:+       +#+        */
+/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 17:53:36 by polenyc           #+#    #+#             */
-/*   Updated: 2023/12/14 14:38:33 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/01/09 13:38:58 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_BONUS_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10
+#  define BUFFER_SIZE 1
 # endif
 # define NEXT_LINE	'\n'
 
@@ -23,6 +23,7 @@ typedef struct s_data
 	int				fd;
 	char			*str;
 	struct s_data	*next;
+	struct s_data	*previos;
 }					t_datafd;
 
 char	*get_next_line(int fd);

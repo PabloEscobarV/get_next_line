@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.fr>               +#+  +:+       +#+        */
+/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 17:43:28 by polenyc           #+#    #+#             */
-/*   Updated: 2023/12/14 14:50:23 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/01/09 12:38:32 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	*splitdata(char **data, char *str)
 	}
 	chnext = ft_strchr(str, NEXT_LINE);
 	if (!chnext)
-		return (strjoinfree(*data, str, 1));
+		return (strjoinfree(*data, str, 2));
 	tmp = strjoinfree(*data, ft_strdup(str, *chnext), 2);
 	*data = ft_strdup(chnext + 1, '\0');
 	free(str);
@@ -75,12 +75,15 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
+	str = readdata(fd);
+	if (!str)
+	{
+		free(data);
+		return (NULL);
+	}
 	if (!data)
 		data = ft_strdup("", '\0');
 	if (!data)
-		return (NULL);
-	str = readdata(fd);
-	if (!str)
 		return (NULL);
 	return (splitdata(&data, str));
 }

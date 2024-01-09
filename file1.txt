@@ -1,9 +1,2 @@
 xx
-aa
-vv
-bb
-fffff
-gggg
-bbvv
-fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-d
+A
