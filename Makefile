@@ -25,7 +25,7 @@ $(NAME_BONUS): $(OBJECTS_BONUS)
 
 $(OBJ_DIR)/%.o: %.c
 	mkdir -p $(OBJ_DIR)
-	$(CC) -c $(CFLAG) -D BUFFER_SIZE=5 $< -o $@
+	$(CC) -c $(CFLAG) -D BUFFER_SIZE=10 $< -o $@
 
 clean:
 	rm -rf $(OBJ_DIR)
