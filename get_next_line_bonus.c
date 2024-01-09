@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 17:43:28 by polenyc           #+#    #+#             */
-/*   Updated: 2024/01/09 15:06:22 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/01/09 21:04:19 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <stdio.h>
 #include <fcntl.h>
 
-t_datafd	*crtdata(char *str, int fd, t_datafd *previos)
+t_datafd	*crtdata(char *str, int fd)
 {
 	t_datafd	*data;
 
@@ -28,31 +28,7 @@ t_datafd	*crtdata(char *str, int fd, t_datafd *previos)
 	if (!data->str)
 		return (NULL);
 	data->next = NULL;
-	data->previos = previos;
 	return (data);
-}
-
-t_datafd	*finddatafd(t_datafd **data, int fd)
-{
-	t_datafd	*tmp;
-
-	if (!(*data) || !data)
-		return (NULL);
-	tmp = *data;
-	while (tmp)
-	{
-		if (tmp->fd == fd)
-			return (tmp);
-		tmp = tmp->next;
-	}
-	tmp = *data;
-	while (tmp)
-	{
-		if (tmp->fd == fd)
-			return (tmp);
-		tmp = tmp->previos;
-	}
-	return (NULL);
 }
 
 char	*readdata(int fd)
@@ -107,24 +83,26 @@ char	*splitdata(t_datafd *data, char *str)
 	return (tmp);
 }
 
-void	delnode(t_datafd **data, t_datafd *tmp)
+char	*delnode(t_datafd **data, int fd)
 {
-	if (tmp->previos)
+	t_datafd	*tmp;
+	t_datafd	*tmp_a;
+
+	tmp = *data;
+	while (tmp && tmp->fd != fd)
 	{
-		tmp->previos->next = tmp->next;
-		return ;
+		tmp_a = tmp;
+        tmp = tmp->next;
 	}
-	if (!tmp->next)
-	{
-		free(tmp->str);
-		free(tmp);
-		// *data = NULL;
-		return ;
-	}
-	*data = (*data)->next;
+	if (!tmp)
+		return (NULL);
+	if ((*data)->fd == fd)
+		(*data) = (*data)->next;
+	else
+		tmp_a->next = tmp->next;
 	free(tmp->str);
 	free(tmp);
-	return ;
+	return (NULL);
 }
 
 char	*get_next_line(int fd)
@@ -135,22 +113,20 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
-	if (!data)
-		data = crtdata(ft_strdup("", '\0'), fd, NULL);
 	str = readdata(fd);
 	if (!str)
-	{
-		tmp = finddatafd(&data, fd);
-		if (!tmp)
-			return (NULL);
-		delnode(&data, tmp);
-		return (NULL);
-	}
-	tmp = finddatafd(&data, fd);
-	if (!tmp)
-		tmp = crtdata(ft_strdup("", '\0'), fd, data);
-	data = tmp;
-	return (splitdata(data, str));
+		return (delnode(&data, fd));
+	if (!data)
+		data = crtdata(ft_strdup("", '\0'), fd);
+    tmp = data;
+    while (tmp->next && tmp->fd != fd)
+        tmp = tmp->next;
+    if (!tmp->next && tmp->fd != fd)
+    {
+		tmp->next = crtdata(ft_strdup("", '\0'), fd);
+        tmp = tmp->next;
+    }
+	return (splitdata(tmp, str));
 }
 
 // int main(void)
@@ -170,39 +146,39 @@ char	*get_next_line(int fd)
 // 	return (0);
 // }
 
-int main(void)
-{
-	char	*str;
-	char	*str1;
-    char    *str2;
-	int		file;
-	int		file1;
-    int     file2;
+// int main(void)
+// {
+// 	char	*str;
+// 	char	*str1;
+//     char    *str2;
+// 	int		file;
+// 	int		file1;
+//     int     file2;
 
-	file = open("file.txt", O_RDONLY);
-	file1 = open("file1.txt", O_RDONLY);
-    file2 = open("file3.txt", O_RDONLY);
-    printf("BUFFER SIZE: %d\n", BUFFER_SIZE);
-	str = get_next_line(file);
-	str1 = get_next_line(file1);
-    str2 = get_next_line(file2);
-	while (str || str1 || str2)
-	{
-		printf("file\t%s", str);
-		printf("file1:\t%s", str1);
-        printf("file2:\t%s", str2);
-		free(str);
-		free(str1);
-		free(str2);
-		str = get_next_line(file);
-		str1 = get_next_line(file1);
-        str2 = get_next_line(file2);
-	}
-	free(str);
-	free(str1);
-	free(str2);
-	close(file);
-	close(file1);
-    close(file2);
-	return (0);
-}
+// 	file = open("file.txt", O_RDONLY);
+// 	file1 = open("file1.txt", O_RDONLY);
+//     file2 = open("file3.txt", O_RDONLY);
+//     printf("BUFFER SIZE: %d\n", BUFFER_SIZE);
+// 	str = get_next_line(file);
+// 	str1 = get_next_line(file1);
+//     str2 = get_next_line(file2);
+// 	while (str || str1 || str2)
+// 	{
+// 		printf("file\t%s", str);
+// 		printf("file1:\t%s", str1);
+//         printf("file2:\t%s", str2);
+// 		free(str);
+// 		free(str1);
+// 		free(str2);
+// 		str = get_next_line(file);
+// 		str1 = get_next_line(file1);
+//         str2 = get_next_line(file2);
+// 	}
+// 	free(str);
+// 	free(str1);
+// 	free(str2);
+// 	close(file);
+// 	close(file1);
+//     close(file2);
+// 	return (0);
+// }

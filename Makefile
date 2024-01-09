@@ -9,7 +9,7 @@ SRC_BONUS = get_next_line_bonus.c get_next_line_utils_bonus.c test_bonus.c
 OBJECTS = $(SRC:%.c=$(OBJ_DIR)/%.o)
 OBJECTS_BONUS = $(addprefix $(OBJ_DIR)/, $(SRC_BONUS:%.c=%.o))
 CC = gcc
-CFLAG = -g -Wall -Wextra
+CFLAG = -g -Wall -Wextra -Werror
 
 .PHONY: all fclean clean bonus run
 
