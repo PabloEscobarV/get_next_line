@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 17:43:28 by polenyc           #+#    #+#             */
-/*   Updated: 2024/01/12 16:22:21 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/01/12 22:03:25 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,57 @@
 #include <stdio.h>
 #include <fcntl.h>
 
-t_datafd	*crtdata(char *str, int fd)
+t_datafd	*delnode(t_datafd **data)
 {
-	t_datafd	*data;
+	t_datafd	*tmp;
 
-	data = malloc(sizeof(t_datafd));
-	if (!data)
+	if (!(*data))
 		return (NULL);
-	data->fd = fd;
-	data->str = str;
-	data->next = NULL;
-	return (data);
+	if (!(*data)->previos)
+	{
+		tmp = (*data)->next;
+		if (tmp)
+			tmp->previos = NULL;
+		free((*data)->str);
+		free(*data);
+		return (tmp);
+	}
+	if ((*data)->next)
+		tmp = (*data)->next;
+	else
+		tmp = (*data)->previos;
+	(*data)->previos->next = (*data)->next;
+	free((*data)->str);
+	free(*data);
+	return (tmp);
+}
+
+t_datafd	*crtdata(t_datafd *data, t_datafd *prev, int fd)
+{
+	t_datafd	*tmp;
+
+	if (!data)
+	{
+		data = malloc(sizeof(t_datafd));
+		if (!data)
+			return (NULL);
+		data->fd = fd;
+		data->str = NULL;
+		data->next = NULL;
+		data->previos = prev;
+		return (data);
+	}
+	tmp = data;
+	while (data && data->fd != fd)
+		data = data->previos;
+	if (data)
+		return (data);
+	while (tmp->next && tmp->fd != fd)
+		tmp = tmp->next;
+	if (tmp->fd == fd)
+		return (tmp);
+	tmp->next = crtdata(NULL, tmp, fd);
+	return (tmp->next);
 }
 
 char	*readdata(char *data, int fd)
@@ -50,77 +90,113 @@ char	*readdata(char *data, int fd)
 	return (data);
 }
 
-char	*splitdata(char **data)
+char	*gnl(t_datafd *data, int fd)
 {
 	char	*chnext;
 	char	*tmp;
 
-	chnext = ft_strchr(*data, NEXT_LINE);
+	data->str = readdata(data->str, fd);
+	if (!data->str)
+		return (NULL);
+	chnext = ft_strchr(data->str, NEXT_LINE);
 	if (!chnext)
 	{
-		chnext = ft_strdup(*data, '\0');
-		free(*data);
-		*data = NULL;
+		chnext = ft_strdup(data->str, '\0');
+		free(data->str);
+		data->str = NULL;
 		return (chnext);
 	}
-	tmp = ft_strdup(*data, *chnext);
+	tmp = ft_strdup(data->str, *chnext);
 	chnext = ft_strdup(chnext + 1, '\0');
-	if (!(*chnext))
-	{
-		free(chnext);
-		chnext = NULL;
-	}
-	free(*data);
-	*data = chnext;
+	free(data->str);
+	data->str = chnext;
 	return (tmp);
-}
-
-char	*delnode(t_datafd **data, int fd)
-{
-	t_datafd	*tmp;
-	t_datafd	*tmp_a;
-
-	tmp = *data;
-	if (!tmp)
-		return (NULL);
-	while (tmp && tmp->fd != fd)
-	{
-		tmp_a = tmp;
-        tmp = tmp->next;
-	}
-	if (!tmp)
-		return (NULL);
-	if ((*data)->fd == fd)
-		(*data) = (*data)->next;
-	else
-		tmp_a->next = tmp->next;
-	free(tmp->str);
-	free(tmp);
-	return (NULL);
 }
 
 char	*get_next_line(int fd)
 {
 	static t_datafd	*data = NULL;
-	t_datafd		*tmp;
+	char			*tmp;
 
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
 	if (!data)
-		data = crtdata(NULL, fd);
-	tmp = data;
-    while (tmp->next && tmp->fd != fd)
-        tmp = tmp->next;
-    if (!tmp->next && tmp->fd != fd)
-    {
-		tmp->next = crtdata(ft_strdup("", '\0'), fd);
-        tmp = tmp->next;
-    }
-	tmp->str = readdata(tmp->str, fd);
-	if (!tmp->str)
-		return (delnode(&data, fd));
-	return (splitdata(&(tmp->str)));
+		data = crtdata(NULL, NULL, fd);
+	data = crtdata(data, data, fd);
+	tmp = gnl(data, fd);
+	if (!tmp)
+		data = delnode(&data);
+	return (tmp);
 }
+
+// char	*readdata(char *data, int fd)
+// {
+// 	char	*buffer;
+// 	int		count;
+	
+// 	if (data && ft_strchr(data, NEXT_LINE))
+// 		return (data);
+// 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
+// 	count = read(fd, buffer, BUFFER_SIZE);
+// 	while (count > 0)
+// 	{
+// 		buffer[count] = '\0';
+// 		data = strjoinfree(data, buffer, 0);
+// 		if (ft_strchr(buffer, NEXT_LINE))
+// 			break ;
+// 		count = read(fd, buffer, BUFFER_SIZE);
+// 	}
+// 	free(buffer);
+// 	return (data);
+// }
+
+// char	*splitdata(char **data)
+// {
+// 	char	*chnext;
+// 	char	*tmp;
+
+// 	chnext = ft_strchr(*data, NEXT_LINE);
+// 	if (!chnext)
+// 	{
+// 		chnext = ft_strdup(*data, '\0');
+// 		free(*data);
+// 		*data = NULL;
+// 		return (chnext);
+// 	}
+// 	tmp = ft_strdup(*data, *chnext);
+// 	chnext = ft_strdup(chnext + 1, '\0');
+// 	if (!(*chnext))
+// 	{
+// 		free(chnext);
+// 		chnext = NULL;
+// 	}
+// 	free(*data);
+// 	*data = chnext;
+// 	return (tmp);
+// }
+
+// char	*get_next_line(int fd)
+// {
+// 	static t_datafd	*data = NULL;
+// 	t_datafd		*tmp;
+
+// 	if (fd < 0 || BUFFER_SIZE < 1)
+// 		return (NULL);
+// 	if (!data)
+// 		data = crtdata(NULL, fd);
+// 	tmp = data;
+//     while (tmp->next && tmp->fd != fd)
+//         tmp = tmp->next;
+//     if (!tmp->next && tmp->fd != fd)
+//     {
+// 		tmp->next = crtdata(ft_strdup("", '\0'), fd);
+//         tmp = tmp->next;
+//     }
+// 	tmp->str = readdata(tmp->str, fd);
+// 	if (!tmp->str)
+// 		return (delnode(&data, fd));
+// 	return (splitdata(&(tmp->str)));
+// }
 
 // char	*readdata(int fd)
 // {
