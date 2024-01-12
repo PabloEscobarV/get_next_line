@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 15:17:58 by polenyc           #+#    #+#             */
-/*   Updated: 2024/01/12 15:42:12 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/01/12 22:12:10 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int main(void)
 	char	*str;
 	int		file;
 
-	file = open("nl", O_RDONLY);
+	file = open("file.txt", O_RDONLY);
     printf("BUFFER SIZE: %d\n", BUFFER_SIZE);
 	str = get_next_line(file);
 	while (str)

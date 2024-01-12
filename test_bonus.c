@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 14:53:17 by polenyc           #+#    #+#             */
-/*   Updated: 2024/01/12 21:58:38 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/01/12 22:13:22 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ int main(void)
     str2 = get_next_line(file2);
 	while (str || str1 || str2)
 	{
-		printf("file\t%s\n", str);
-		printf("file1:\t%s\n", str1);
-        printf("file2:\t%s\n", str2);
+		printf("file\t%s", str);
+		// printf("file1:\t%s\n", str1);
+        // printf("file2:\t%s\n", str2);
 		free(str);
 		free(str1);
 		free(str2);
@@ -44,6 +44,7 @@ int main(void)
 		str1 = get_next_line(file1);
         str2 = get_next_line(file2);
 	}
+	printf("end: %s\n", str);
 	free(str);
 	free(str1);
 	free(str2);
