@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.fr>               +#+  +:+       +#+        */
+/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 14:53:17 by polenyc           #+#    #+#             */
-/*   Updated: 2023/12/14 15:52:24 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/01/12 16:24:29 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ int main(void)
     str2 = get_next_line(file2);
 	while (str || str1 || str2)
 	{
-		printf("file\t%s", str);
-		printf("file1:\t%s", str1);
-        printf("file2:\t%s", str2);
+		printf("file\t%s\n", str);
+		printf("file1:\t%s\n", str1);
+        printf("file2:\t%s\n", str2);
 		free(str);
 		free(str1);
 		free(str2);

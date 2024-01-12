@@ -6,7 +6,7 @@
 /*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 17:43:28 by polenyc           #+#    #+#             */
-/*   Updated: 2024/01/09 12:38:32 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/01/12 16:00:47 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,91 +16,60 @@
 #include <stdio.h>
 #include <fcntl.h>
 
-char	*readdata(int fd)
+char	*readdata(char *data, int fd)
 {
 	char	*buffer;
-	char	*str;
 	int		count;
-
+	
+	if (data && ft_strchr(data, NEXT_LINE))
+		return (data);
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	count = read(fd, buffer, BUFFER_SIZE);
-	if (count < 1)
+	while (count > 0)
 	{
-		free(buffer);
-		return (NULL);
-	}
-	buffer[count] = '\0';
-	str = ft_strdup("", '\0');
-	while (count && !ft_strchr(buffer, NEXT_LINE))
-	{
-		str = strjoinfree(str, buffer, 0);
-		if (!str)
-		{
-			free(buffer);
-			return (str);
-		}
-		count = read(fd, buffer, BUFFER_SIZE);
 		buffer[count] = '\0';
+		data = strjoinfree(data, buffer, 0);
+		if (ft_strchr(buffer, NEXT_LINE))
+			break ;
+		count = read(fd, buffer, BUFFER_SIZE);
 	}
-	return (strjoinfree(str, buffer, 2));
+	free(buffer);
+	return (data);
 }
 
-char	*splitdata(char **data, char *str)
+char	*splitdata(char **data)
 {
 	char	*chnext;
 	char	*tmp;
 
 	chnext = ft_strchr(*data, NEXT_LINE);
-	if (chnext)
-	{
-		tmp = ft_strdup(*data, *chnext);
-		chnext = ft_strdup(chnext + 1, '\0');
-		free(*data);
-		*data = strjoinfree(chnext, str, 2);
-		return (tmp);
-	}
-	chnext = ft_strchr(str, NEXT_LINE);
 	if (!chnext)
-		return (strjoinfree(*data, str, 2));
-	tmp = strjoinfree(*data, ft_strdup(str, *chnext), 2);
-	*data = ft_strdup(chnext + 1, '\0');
-	free(str);
+	{
+		chnext = ft_strdup(*data, '\0');
+		free(*data);
+		*data = NULL;
+		return (chnext);
+	}
+	tmp = ft_strdup(*data, *chnext);
+	chnext = ft_strdup(chnext + 1, '\0');
+	if (!(*chnext))
+	{
+		free(chnext);
+		chnext = NULL;
+	}
+	free(*data);
+	*data = chnext;
 	return (tmp);
 }
 
 char	*get_next_line(int fd)
 {
 	static char	*data = NULL;
-	char		*str;
 
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
-	str = readdata(fd);
-	if (!str)
-	{
-		free(data);
-		return (NULL);
-	}
-	if (!data)
-		data = ft_strdup("", '\0');
+	data = readdata(data, fd);
 	if (!data)
 		return (NULL);
-	return (splitdata(&data, str));
+	return (splitdata(&data));
 }
-
-// int main(void)
-// {
-// 	char	*str;
-// 	char	*str1;
-// 	int		file;
-
-// 	file = open("file.txt", O_RDONLY);
-// 	str = get_next_line(file);
-// 	while (str)
-// 	{
-// 		printf("%s", str);
-// 		str = get_next_line(file);
-// 	}
-// 	close(file);
-// 	return (0);
-// }

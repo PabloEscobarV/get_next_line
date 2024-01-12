@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.fr>               +#+  +:+       +#+        */
+/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 17:17:10 by polenyc           #+#    #+#             */
-/*   Updated: 2023/12/13 23:39:32 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/01/12 14:49:56 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ size_t	ft_strlen(const char *str)
 	size_t	count;
 
 	count = 0;
+	if (!str)
+		return (count);
 	while (str[count] != '\0')
 		++count;
 	return (count);
@@ -57,6 +59,8 @@ char	*ft_strdup(const char *src, char end)
 
 char	*ft_strcpy(char *dest, char const *src)
 {
+	if (!dest || !src)
+		return (dest);
 	while (*src != 0)
 	{
 		*dest = *src;
