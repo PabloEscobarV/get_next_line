@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 17:43:28 by polenyc           #+#    #+#             */
-/*   Updated: 2024/01/12 22:03:25 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/01/12 23:17:43 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ char	*gnl(t_datafd *data, int fd)
 	char	*tmp;
 
 	data->str = readdata(data->str, fd);
-	if (!data->str)
+	if (!data->str || !(*(data->str)))
 		return (NULL);
 	chnext = ft_strchr(data->str, NEXT_LINE);
 	if (!chnext)
