@@ -23,7 +23,8 @@ int main(void)
 	char	*str;
 	int		file;
 
-	file = open("file.txt", O_RDONLY);
+	// file = open("file.txt", O_RDONLY);
+    file = 42;
     printf("BUFFER SIZE: %d\n", BUFFER_SIZE);
     str = get_next_line(file);
 	while (str)

@@ -69,5 +69,6 @@ int main(void)
 	close(file);
 	close(file1);
     close(file2);
+	close(la_ten);
 	return (0);
 }
