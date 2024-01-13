@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
+/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 17:43:28 by polenyc           #+#    #+#             */
-/*   Updated: 2024/01/12 23:12:56 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/01/13 15:28:52 by polenyc          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*readdata(char *data, int fd)
 {
 	char	*buffer;
 	int		count;
-	
+
 	if (data && ft_strchr(data, NEXT_LINE))
 		return (data);
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
