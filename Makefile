@@ -6,11 +6,11 @@
 #    By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/05 13:57:20 by polenyc           #+#    #+#              #
-#    Updated: 2024/02/05 14:02:30 by polenyc          ###   ########.fr        #
+#    Updated: 2024/02/05 14:31:03 by polenyc          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = libget_next_line.a
+NAME = libgnl.a
 OBJDIR = objs
 SRC = get_next_line.c get_next_line_utils.c
 OBJ = $(SRC:%.c=$(OBJDIR)/%.o)
