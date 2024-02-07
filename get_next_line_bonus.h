@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 17:53:36 by polenyc           #+#    #+#             */
-/*   Updated: 2024/01/09 21:11:44 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/02/07 14:32:26 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ typedef struct s_data
 }					t_datafd;
 
 char	*get_next_line(int fd);
-char	*ft_strchr(const char *s, int ch);
-char	*ft_strdup(const char *src, char end);
+char	*ft_strchr_gnl(const char *s, int ch);
+char	*ft_strdup_gnl(const char *src, char end);
 char	*strjoinfree(char *s1, char *s2, int pos);
 
 #endif

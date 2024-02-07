@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 17:17:10 by polenyc           #+#    #+#             */
-/*   Updated: 2024/01/12 16:20:47 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/02/07 14:31:36 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
-char	*ft_strchr(const char *s, int ch)
+char	*ft_strchr_gnl(const char *s, int ch)
 {
 	unsigned char	c;
 
@@ -24,7 +24,7 @@ char	*ft_strchr(const char *s, int ch)
 	return (NULL);
 }
 
-size_t	ft_strlen(const char *str)
+size_t	ft_strlen_gnl(const char *str)
 {
 	size_t	count;
 
@@ -36,7 +36,7 @@ size_t	ft_strlen(const char *str)
 	return (count);
 }
 
-char	*ft_strdup(const char *src, char end)
+char	*ft_strdup_gnl(const char *src, char end)
 {
 	char	*tmp;
 	int		size;
@@ -57,7 +57,7 @@ char	*ft_strdup(const char *src, char end)
 	return (tmp);
 }
 
-char	*ft_strcpy(char *dest, char const *src)
+char	*ft_strcpy_gnl(char *dest, char const *src)
 {
 	if (!dest || !src)
 		return (dest);
@@ -77,12 +77,12 @@ char	*strjoinfree(char *s1, char *s2, int pos)
 	size_t	size1;
 	size_t	size2;
 
-	size1 = ft_strlen(s1);
-	size2 = ft_strlen(s2);
+	size1 = ft_strlen_gnl(s1);
+	size2 = ft_strlen_gnl(s2);
 	arr = malloc((size1 + size2 + 1) * sizeof(char));
 	if (!arr)
 		return (NULL);
-	ft_strcpy(ft_strcpy(arr, s1), s2);
+	ft_strcpy_gnl(ft_strcpy_gnl(arr, s1), s2);
 	if (pos < 0)
 		return (arr);
 	if (pos == 0)

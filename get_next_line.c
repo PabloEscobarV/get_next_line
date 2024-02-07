@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: polenyc <polenyc@student.42.fr>            +#+  +:+       +#+        */
+/*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 17:43:28 by polenyc           #+#    #+#             */
-/*   Updated: 2024/01/13 15:28:52 by polenyc          ###   ########.fr       */
+/*   Updated: 2024/02/07 14:33:32 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*readdata(char *data, int fd)
 	char	*buffer;
 	int		count;
 
-	if (data && ft_strchr(data, NEXT_LINE))
+	if (data && ft_strchr_gnl(data, NEXT_LINE))
 		return (data);
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	count = read(fd, buffer, BUFFER_SIZE);
@@ -29,7 +29,7 @@ char	*readdata(char *data, int fd)
 	{
 		buffer[count] = '\0';
 		data = strjoinfree(data, buffer, 0);
-		if (ft_strchr(buffer, NEXT_LINE))
+		if (ft_strchr_gnl(buffer, NEXT_LINE))
 			break ;
 		count = read(fd, buffer, BUFFER_SIZE);
 	}
@@ -42,16 +42,16 @@ char	*splitdata(char **data)
 	char	*chnext;
 	char	*tmp;
 
-	chnext = ft_strchr(*data, NEXT_LINE);
+	chnext = ft_strchr_gnl(*data, NEXT_LINE);
 	if (!chnext)
 	{
-		chnext = ft_strdup(*data, '\0');
+		chnext = ft_strdup_gnl(*data, '\0');
 		free(*data);
 		*data = NULL;
 		return (chnext);
 	}
-	tmp = ft_strdup(*data, *chnext);
-	chnext = ft_strdup(chnext + 1, '\0');
+	tmp = ft_strdup_gnl(*data, *chnext);
+	chnext = ft_strdup_gnl(chnext + 1, '\0');
 	if (!(*chnext))
 	{
 		free(chnext);
