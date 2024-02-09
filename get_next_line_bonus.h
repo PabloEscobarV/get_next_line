@@ -6,7 +6,7 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 17:53:36 by polenyc           #+#    #+#             */
-/*   Updated: 2024/02/07 14:32:26 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/02/09 20:50:40 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@
 # endif
 # define NEXT_LINE	'\n'
 
-typedef struct s_data
+typedef struct s_datagnl
 {
-	int				fd;
-	char			*str;
-	struct s_data	*next;
-	struct s_data	*previos;
-}					t_datafd;
+	int					fd;
+	char				*str;
+	struct s_datagnl	*next;
+	struct s_datagnl	*previos;
+}						t_datafd;
 
 char	*get_next_line(int fd);
 char	*ft_strchr_gnl(const char *s, int ch);
